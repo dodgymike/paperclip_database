@@ -181,7 +181,11 @@ module Paperclip
       end
 
       def file_contents(style = default_style)
-        file_for(style).file_contents
+        file = file_for(style)
+
+	return nil if file.nil?
+
+        file.file_contents
       end
 
       def flush_writes
