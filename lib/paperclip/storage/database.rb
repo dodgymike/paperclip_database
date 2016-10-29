@@ -225,7 +225,7 @@ module Paperclip
           base.extend(self)
         end
         def downloads_files_for(model, attachment, options = {})
-          define_method("#{attachment.to_s.pluralize}") do
+          define_method("#{model.to_s}_#{attachment.to_s.pluralize}") do
             #FIXME: Handling Namespaces
             model_record = Object.const_get(model.to_s.camelize.to_sym, false).find(params[:id])
             style = params[:style] ? params[:style] : 'original'
