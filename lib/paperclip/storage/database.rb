@@ -228,6 +228,19 @@ module Paperclip
           define_method("#{model.to_s}_#{attachment.to_s.pluralize}") do
             #FIXME: Handling Namespaces
             model_record = Object.const_get(model.to_s.camelize.to_sym, false).find(params[:id])
+
+            style = params[:style] ? params[:style] : 'original'
+            send_data model_record.send(attachment).file_contents(style),
+                      :filename => model_record.send("#{attachment}_file_name".to_sym),
+                      :type => model_record.send("#{attachment}_content_type".to_sym)
+          end
+        end
+        def downloads_model_files_for(model, attachment, options = {})
+          define_method("#{model.to_s}_#{attachment.to_s.pluralize}") do
+            #FIXME: Handling Namespaces
+            model_record = self.send("#{model.to_s}_#{attachment.to_s.pluralize}_model")
+            puts "model_record (#{model_record})"
+
             style = params[:style] ? params[:style] : 'original'
             send_data model_record.send(attachment).file_contents(style),
                       :filename => model_record.send("#{attachment}_file_name".to_sym),
