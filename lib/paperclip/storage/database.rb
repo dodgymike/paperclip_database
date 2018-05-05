@@ -175,7 +175,7 @@ module Paperclip
       end
 
       def file_for(style)
-        db_results = instance.send("#{@paperclip_files_association_name}").where(style: style)
+        db_result = instance.send("#{@paperclip_files_association_name}").where(style: style)
         raise RuntimeError, "More than one result for #{style}" if db_result.size > 1
         db_result.first
       end
